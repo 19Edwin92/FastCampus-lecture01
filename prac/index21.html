@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+      
+      const App =() => {
+        const formHandler = (e) => {
+          e.preventDefault();
+          // console.dir(e.target) //form으로 들어온 값의 각각의 번지에 저장된 정보를 확인할 수 있다. 
+          console.log("fname", e.target[0].value) // 위의 방법보다는 
+          console.log("Lname", e.target[1].value)
+          console.log(e.target.elements.fname.value) // 아래의 target.elements 로 접근하여, 이름에 도달하는 것이 더 정확할 것이다. 
+          console.log(e.target.elements.cars.value)
+          alert(`fname ${e.target.elements.fname.value}, car ${e.target.elements.cars.value}`)
+          
+        }
+        return (<>
+          <form onSubmit={formHandler}>
+            <label htmlFor="fname">First name:</label><br />
+            <input type="text" id="fname" name="fname" defaultValue="John" /><br />
+            <label htmlFor="fname">Choose & car:</label>
+            <select id="cars" name="cars">
+              <option value="volvo">Volvo</option>
+              <option value="saab">Saab</option>
+              <option value="fiat">Fiat</option>
+              <option value="audi">Audi</option>
+            </select>
+            <input type="submit" value="Submit" />
+          </form> {/* form 태그 자체가 담겨있는 좋은 기능이 있으니 를 가져다 활용하자 */}
+        </>)
+      }
+      ReactDOM.render(<App/>, root)
+    </script>
+</body>
+</html>
+

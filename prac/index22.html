@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- validation 유효성 검사  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+      
+      const App =() => {
+        const [message, setMessage] = React.useState('')
+        const [phonenumber, setphonenumber] = React.useState('')
+        const formHandler = (e) => {
+          e.preventDefault();
+          alert(phonenumber)
+        }
+
+        // 유효성 검사는 여기서 하는 것이 좋습니다.   
+        const changeHandler = (e) => {
+          // setphonenumber(e.target.value)
+          // if(phonenumber.startsWith(0)) {
+          
+           // 값이 조건에 맞으면 
+            if(e.target.value.startsWith(0)) {
+            // 그런데 이전의 방법으로는 시차가 존재한다. 그렇다면 바로 넣어주면 되지 않겠는가.. 아!!
+            // https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+            // String.prototype.startsWith() 어떤 문자열이 특정문자로 시작되는지를 확인하고, 그 결과를 true, false로 반환           
+            // 그리고 하단 input에 value 설정을 해두면, 유효할 때만 정보가 입력될 것이다. 
+            setMessage("Number is valid")
+            //바로 셋을 해봤자. 한 박자 늦으니까 
+            //유효했을 때만 입력이 되게 하면 된다. 
+            setphonenumber(e.target.value) 
+
+          // 값이 영이면 초기값으로 돌이키기.  
+          } else if (e.target.value.length == 0) {
+            setMessage("")
+            setphonenumber('') 
+
+          // 값이 조건에 맞지 않으면  
+          } else {
+            setphonenumber('')
+            setMessage("Number should starts with 0")
+          }
+          
+        }
+        
+        return (<>
+          <form onSubmit={formHandler}>
+            <label htmlFor="phone">Phone Number:</label><br />
+            <input id="phone" name="phone" value={phonenumber} onChange={changeHandler}/>
+            <p>{message}</p>
+            {/* disabled 조건이 충족되지 않으면 버튼자체가 활성화 되지 않는다. */}
+            <button type="submit" value="Submit" 
+              disabled={
+                !phonenumber.length > 0 || message !== "Number is valid"
+              }>Submit</button>
+          </form> {/* form 태그 자체가 담겨있는 좋은 기능이 있으니 를 가져다 활용하자 */}
+        </>)
+      }
+      ReactDOM.render(<App/>, root)
+    </script>
+</body>
+</html>
+

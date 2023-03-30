@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- useRef: Reference 참조 -->
+  <!-- 저장소로도 이용되지만, DOM에 접근하기 위한 도구로도 많이 사용된다. -->
+  <!-- DOM-tree : 브라우저에서 이해하는 논리적인 구조 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+    
+      const App = () => {
+        const inputRef = React.useRef();
+        const divRef = React.useRef();
+
+        React.useEffect(()=> {
+          // focus() 를 사용해서 이를 이용한 것입니다. 이를 useRef 를 사용해 봅시다. 
+          // document.getElementById('input').focus()
+          inputRef.current.focus()
+          setInterval(()=>{ // 반복실행
+            divRef.current.style.backgroundColor = "pink"
+            setTimeout(()=> { // 시간차 실행
+              divRef.current.style.backgroundColor = "orange"
+            }, 500)
+          }, 1000)
+        },[])
+        // useRef를 사용하는 이유는 무엇일까? 리액트가 관장하고 있는 틀 안에서 DOM에 접근하기 위함이다. 
+        // 쉽게, 이름표라고 생각하면 된다. 
+        // 상태를 라이프사이클과 별개로 전역적으로 관리할 때 사용되기도 한다. 
+ 
+        return (
+          <>
+          <input id="input" ref={inputRef}/>
+          <div ref={divRef} style={{height:"100px", width:"100px", backgroundColor:"orange"}}/>
+          </>
+        )
+      }
+      ReactDOM.render(<App/>, root)
+    </script>
+</body>
+</html>
