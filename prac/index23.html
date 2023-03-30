@@ -5,12 +5,56 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <div id="root"><div>
+  <div id="root"></div>
     <script type="text/babel">
       const root = document.getElementById('root')
   
-      const element = (<></>)
-      ReactDOM.render(element, root)
+      // 01 // Chlid에서 의도적으로 error를 발생하기 그리고 그 메시지로, someting wrong.... 을 설정 
+      const Chlid = () => {
+        throw new Error('someting wrong....');
+        return <p>Chlid....</p>
+      }
+
+      // 02 // 에러제어를 위해서는 클래스를 사용해야 됩니다. 
+      // 하단에서 에러를 제어할 태그를 감싸준다. props로 fallback 컴포넌트를 받는다. 
+      // 만약 ErrorBoundary를 사용하지 않으면, 에러가 발생했을 때, 뷰 자체가 동자갛지 않을 것이다. 
+      // getDerivedStateFromError는 라이프사이클 메소드 중 하나로, 자식 컴포넌트에서 에러가 발생했을 때 호출된다. 
+      // 이 메소드는 '에러 객체'를 받아서 이 객체를 'state에 저장'하고, 이후 렌더링할 때 이 에러 객체를 사용할 수 있도록 합니다
+      class ErrorBoundary extends React.Component {
+        state = {error:null}; 
+        static getDerivedStateFromError(error) {
+          return {error}; 
+        }
+
+        render() {
+          const {error} = this.state; 
+          if (error) { // error가 존재하면 
+            return <this.props.fallback error={error} />
+          } // 그렇지 않으면 
+          return this.props.children; // 프롭스는 ErrorBoundary로 감싸진 자식 컴포넌트를 의미합니다.
+        }
+      }
+
+      // 03 // Fallback : 에러의 결과로 실행될 Fallback에 대한 부분이다. 
+      const Fallback = ({ error }) => {
+        return (
+          <>
+          <p>{error.message}</p>
+          </>
+        )
+      }
+
+      const App = () => {
+        return (
+          <>
+          App
+          <ErrorBoundary fallback={Fallback}>
+            <Chlid />
+          </ErrorBoundary>
+          </>
+        )
+      }
+      ReactDOM.render(<App />, root)
     </script>
 </body>
 </html>

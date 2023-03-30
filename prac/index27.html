@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+  
+      const App = () => {
+        const [id, setId] = React.useState('')
+        const [pw, setPw] = React.useState('')
+
+        const onLogin = (e) => {
+          e.preventDefault();
+          alert(`id ${id} pw ${pw}`)
+        }
+        return (
+          <form onSubmit={onLogin}>
+            <label htmlFor="id">id</label>
+            <input id="id" onChange={e => setId(e.target.value)}/><br/>
+            <label htmlFor="pw">pw</label>
+            <input id="pw" onChange={e => setPw(e.target.value)}/>
+            <input type="submit" value="Login" disabled={!id || !pw}/>
+          </form>
+        )
+      }
+      ReactDOM.render(<App/>, root)
+    </script>
+</body>
+</html>

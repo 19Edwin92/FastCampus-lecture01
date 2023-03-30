@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+  
+      const todos = [
+        [
+        {id:1, value :"하나둘셋"},
+        {id:2, value :"운동하러가기"},
+        {id:3, value :"씻으러가기"},
+        {id:4, value :"잘꺼야"}
+        ],
+        [
+        {id:4, value :"잘꺼야"},
+        {id:1, value :"하나둘셋"},
+        {id:2, value :"운동하러가기"},
+        {id:3, value :"씻으러가기"},
+        ],
+        [
+        {id:3, value :"씻으러가기"},
+        {id:4, value :"잘꺼야"},
+        {id:1, value :"하나둘셋"},
+        {id:2, value :"운동하러가기"},
+        ]
+      ]
+      const App = () => {
+        const [itmes, setItems] = React.useState(todos)
+        const DoneHandler = (todo) => {
+          setItems((itmes) => itmes.filter(els=> els !== todo)) // 신가하네 객체 간에도 비교가 되네? 
+        }
+
+        React.useEffect(()=>{
+          const interval = setInterval(()=>{
+            const random = Math.floor(Math.random() * 3);
+            setItems(todos[random])
+          }, 1000);
+
+          return () => {
+            clearInterval(interval)
+          }
+        },[])        
+
+        const handleRestorer= () => {
+          setItems((items) => [
+          ...items,
+          // todos.find((item) => !item.includes(item)) // item 이 item 과 비교하면 항상 false 가 될 것이다. 
+          todos.find((item) => !items.includes(item)) // 매개변수를 잘 가져다 사용해야 된다.
+          // find는 하나씩 추가한다. 만약 전부 추가하고 싶다면, filter을 사용하면 될 것이다. 
+          ]);
+
+        };
+
+        // 아래와 같이 키를 주지 않으면 글짜만 변경된다면, key를 주었다면 해당 div 자체가 변경되는 것을 볼 수 있다. 
+        return (<>
+          {itmes.map(el => 
+            <div key={el.id}>
+              {el.id} :  <button onClick={()=>DoneHandler(el)}>{el.value}</button>
+            </div>
+          )}      
+          <br/>
+          <button onClick={handleRestorer}>Restore</button>  
+        </>);
+      };
+
+
+      ReactDOM.render(<App/>, root)
+    </script>
+</body>
+</html>

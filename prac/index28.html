@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+      
+      const App = () => {
+        const [state, setState] = React.useState(null)
+        const [error, setError] = React.useState(null)
+
+        React.useEffect(()=>{
+          //fetch('https://raw.githubusercontent.com/techoi/raw-data-api/main/simple-api.json')
+          fetch('https://raw.githubusercontent.com/techoi/raw-data-api/main/simple-api.jsons')
+          .then(function(response) {
+            return response.json()
+          })
+          .then(function(myJson) {
+            setState(myJson.data)
+          })
+          // 에러를 제어해보자. 
+          .catch ((error) => {
+            setError(error.message)
+            alert(error)
+          })
+        },[])
+
+        if(error != null) {
+          return <p>{error}</p>
+        }
+    
+        
+        if (state == null) {
+          return <p>Loading....</p>
+        }
+
+        return (
+          <>
+          <p>peoples</p>
+          {state?.people.map(el=> (<p>{el.name} {el.age}</p>
+          ))}
+          </>
+        )
+      }
+      ReactDOM.render(<App/>, root)
+    </script>
+</body>
+</html>
