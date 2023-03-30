@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <!-- 커스컴 훅에 대해서 만들어보자  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div> 
+    <script type="text/babel">
+      const root = document.getElementById('root')
+
+      function useLocastorage (itemName, value = "") {
+        const [state, setState] = React.useState(() => {
+          return window.localStorage.getItem(itemName) || value}) // useState의 초기값이지.. 맞네
+
+        React.useEffect(()=>{ 
+          window.localStorage.setItem(itemName, state)
+        },[state])
+
+        return [state, setState]
+      }
+
+      const App = () => {
+        // 로컬 스토리지에 도달했다 오니 늦습니다.
+        //const [keyword, setKeyword] = React.useState(window.localStorage.getItem("keyword"))
+        const [keyword, setKeyword] = useLocastorage("keyword")
+        const [result, setResult] = useLocastorage("result")
+        const [typing, settyping] = useLocastorage("typing", false)
+
+        function handleChange (event) {
+          setKeyword(event.target.value)
+          settyping(true)
+        }
+          
+        function handleClick() {
+          settyping(false)
+          setResult(`we find result of ${keyword}`)
+        }
+
+        // 이 훅을 사용하지 않으면, 
+        // window.localStorage.setItem("keyword", keyword)
+        // 렌더가 될 때마다 계속 로컬스토리지에 전달이 될 것입니다. 키워드가 변경될 때마다? 동립된 공간에 만들어 놓고 사용할 때 이 훅이 사용됩니다. 
+
+        return (
+          <>
+          <input value={keyword} onChange={handleChange}/>
+          <button onClick={handleClick}>serach</button>
+          <p>{typing ? `Looking for...${keyword}`: `${result}`}</p>
+          </>
+        )
+      }
+      
+      ReactDOM.render(<App />, root) // 변경이 되면 그려줘야죠?
+    </script>
+</body>
+</html>

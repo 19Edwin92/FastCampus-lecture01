@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <div id="root"><div>
+  
+  <script type="text/babel">  // type을 설정해주어야 합니다. 
+    const rootElement = document.getElementById("root");
+
+    // 태그처럼 만든 함수 // 컴포넌트에서는 대문자로 해야 됩니다.
+    const Paint = ({title, decrtiption}) => (
+        <>  
+            <h1>{title}</h1>
+            <h3>{decrtiption}</h3>
+        </>
+    )
+
+    // 함수로 선언한 JSX
+    const paint = (title, decrtiption) => {
+     return (<>  
+          <h1>{title}</h1>
+          <h3>{decrtiption}</h3>
+      </>)
+    }
+
+    // 1-6 JS와 JSX 썪어쓰기 
+    const Text = ({text}) => {
+      // return (
+        //<>
+        // 조건문을 넣어 봅시다.
+        //<h1>{text}</h1>
+        //<h3>{text}</h3>
+        //</>
+
+        // 이런거죠. 입력받은 프롭스의내용에 따라서 조건문으로 기록이 가능하다는 말이다. 
+        if(text.charAt(0) === text.charAt(0).toUpperCase()) {
+          return (<h1>{text}</h1>)
+        } else {
+          return  (<h3>{text}</h3>)
+        }
+
+      // )
+    };
+
+    const Number = ({ number }) => {
+      // 이런식의 계산도 가능하다는 말이다. 
+      return number % 2 === 0 ? <h1>{number}</h1> : <h3>{number}</h3>
+    }
+
+    const NumberSelect = ({ number, select }) => {
+      // 이런식의 계산도 가능하다는 말이다. 
+      return select ? <h1>{number}</h1> : <h3>{number}</h3>
+    }
+
+    const elements = (
+        <>  
+        <Paint title="안녕" decrtiption="아 아래가 없어서"/>
+        {paint("안녕", "멍충야")}
+        {paint("안녕", "천사야")}
+        <Text text="Hi"/>
+        <Text text="hi"/>
+        <Number number={1}/>
+        <Number number={2}/>
+        <Number number={3}/>
+        <Number number={4}/>
+        <NumberSelect number={10} select={true} /> {/* 이런 식도 가능하다. */}
+        <NumberSelect number={10} />
+        {[10,11,12,13,14,15,16,17,18,19, 20].map(el => 
+          <NumberSelect key={el} number={el} select={el %2 === 0 ? true : false}/>)}
+        </>
+    );
+    // ReactDOM.render(paint(), rootElement)
+    ReactDOM.render(elements, rootElement)
+    console.log(elements)
+  </script>  
+</body>
+</html>

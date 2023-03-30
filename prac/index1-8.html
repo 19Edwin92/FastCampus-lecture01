@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <div id="root"><div>
+  <!-- 바닐라JS -->
+  <!-- <script>
+    const rootElement = document.getElementById("root"); 
+    function random () {
+      const number = Math.floor(Math.random() * (10-1) + 1);
+      const element = `<button>${number}</button>`;
+      rootElement.innerHTML = element;
+    } 
+
+    setInterval(random,1000)
+  </script> -->
+
+  <script type="text/babel">
+    // const rootElement = document.getElementById("root");
+    //function random() {
+    //  const number = Math.floor(Math.random() * (10-1) + 1);
+    //  const element = (<button>{number}</button>);
+      // 보면 number만 변경되는 것을 볼 수 있습니다. 
+      // 반면에 바닐라 JS 는 전체가 페잉팅됩니다. 
+    //  ReactDOM.render(element, rootElement)
+    //}
+    //setInterval(random,1000)
+    const root = ReactDOM.createRoot(
+      document.getElementById('root')
+    );
+
+    function tick() {
+      const element = (
+        <div>
+          <h1>Hello, world!</h1>
+          <h2>It is {new Date().toLocaleTimeString()}.</h2>
+        </div>
+      );
+      root.render(element);
+    }
+
+    setInterval(tick, 1000);
+  </script>
+
+</body>
+</html>

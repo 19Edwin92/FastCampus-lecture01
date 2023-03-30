@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+  
+      const element = <button onClick={()=>alert("안녕")}>Press</button>
+      ReactDOM.render(element, root)
+    </script>
+</body>
+</html>

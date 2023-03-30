@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+  <!-- 리액트 라이브러리/바벨 CDN  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"><div>
+    <script type="text/babel">
+      const root = document.getElementById('root')
+
+      const state = {keyword:"", typing:false, result:""}
+      console.log(state.keyword)
+      const App = () => {
+        function handleChange (event) {
+          setState({typing:true, keyword: event.target.value})
+          
+        }
+
+        function setState(newstate) {
+          Object.assign(state,newstate) // 원본을 직접 변경합니다. 
+          render() // 변경되었을 때마다 새로 그려랴  
+        }
+
+        function handleClick() {
+          setState({
+            typing:false,
+            result:`We find results of ${state.keyword}`
+          })
+        }
+
+        return (
+          <>
+          <input onChange={handleChange}/>
+          <button onClick={handleClick}>serach</button>
+          <p>{state.typing ? `Looking for... ${state.keyword}` : `${state.result}`}</p>
+          </>
+        )
+      }
+      
+      function render() {
+        ReactDOM.render(<App />, root) // 변경이 되면 그려줘야죠?
+      }
+      render() // 처음에 그려달라는 명령 
+    </script>
+</body>
+</html>
